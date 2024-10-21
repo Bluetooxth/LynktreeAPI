@@ -31,10 +31,10 @@ const login = async (req, res) => {
     });
 
     res.cookie("token", token, {
-      httpOnly: true,
+      httpOnly: false,
       sameSite: "none",
       secure: true,
-      maxAge: 604800000,
+      expiresIn: "7d",
       path: '/',
     });
 
