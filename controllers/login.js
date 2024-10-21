@@ -28,14 +28,13 @@ const login = async (req, res) => {
 
     const token = jwt.sign({ userID: user.id }, process.env.JWT_SECRET);
 
-    res.cookie("token", token, {
+    return res.status(200).cookie("token", token, {
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
       sameSite: "none",
       secure: true,
-    });
+    }).json({ message: "Login successful" });
 
-    res.status(200).json({ message: "Login successful" });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
