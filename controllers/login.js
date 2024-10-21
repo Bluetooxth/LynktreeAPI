@@ -33,7 +33,6 @@ const login = async (req, res) => {
       httpOnly: true,
       signed: true,
       sameSite: "none",
-      crossSite : true,
     });
 
     res.status(200).json({ message: "Login successful" });
