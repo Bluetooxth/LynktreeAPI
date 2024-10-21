@@ -30,12 +30,13 @@ const login = async (req, res) => {
       expiresIn: "7d",
     });
 
-    res.cookie("token", token,{
+    const options = {
+      maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
-      maxAge: 604800000,
-    }).send();
+      signed: true,
+    };
+
+    res.cookie("token", token, options);
 
     res.status(200).json({ message: "Login successful" });
   } catch (error) {
