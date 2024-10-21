@@ -31,8 +31,8 @@ const login = async (req, res) => {
     });
 
     res.cookie("token", token, {
-      httpOnly: false,
-      sameSite: "none",
+      httpOnly: true,
+      sameSite: "lax",
       secure: true,
       expiresIn: "7d",
       path: '/',
