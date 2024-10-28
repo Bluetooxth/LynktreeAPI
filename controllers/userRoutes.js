@@ -68,7 +68,7 @@ export const login = async (req, res) => {
       expiresIn: "24h",
     });
 
-    res.cookie("token", token, {
+    res.cookie("auth-token", token, {
       httpOnly: true,
       secure: true,
       sameSite: "none",
@@ -84,12 +84,12 @@ export const login = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("token", { path: "/" });
+  res.clearCookie("auth-token", { path: "/" });
   res.status(200).json({ message: "User logged out successfully" });
 };
 
 export const usrDelete = async (req, res) => {
-  const token = req.cookies.token;
+  const token = req.cookies['auth-token'];
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -104,7 +104,7 @@ export const usrDelete = async (req, res) => {
       },
     });
 
-    res.clearCookie("token", { path: "/" });
+    res.clearCookie("auth-token", { path: "/" });
 
     res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
@@ -113,7 +113,7 @@ export const usrDelete = async (req, res) => {
 };
 
 export const usrGet = async (req, res) => {
-  const token = req.cookies.token;
+  const token = req.cookies['auth-token'];
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -210,11 +210,11 @@ export const usrUpdate = async (req, res) => {
     }
 
     const updatedData = {
-      name: name,
-      username: username,
-      email: email,
-      tagline: tagline,
-      profile_url: profile_url,
+      name,
+      username,
+      email,
+      tagline,
+      profile_url,
     };
 
     if (password) {
@@ -223,7 +223,7 @@ export const usrUpdate = async (req, res) => {
 
     await prisma.links.deleteMany({
       where: {
-        userID: userID,
+        userID,
       },
     });
 
