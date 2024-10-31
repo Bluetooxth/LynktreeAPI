@@ -3,22 +3,24 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 
-import { login } from "./controllers/userRoutes.js";
-import { signup } from "./controllers/userRoutes.js";
-import { logout } from "./controllers/userRoutes.js";
-import { usrDelete } from "./controllers/userRoutes.js";
-import { usrGet } from "./controllers/userRoutes.js";
-import { usrProfile } from "./controllers/userRoutes.js";
-import { usrUpdate } from "./controllers/userRoutes.js";
+import {
+  login,
+  signup,
+  usrDelete,
+  usrGet,
+  usrProfile,
+  usrUpdate,
+} from "./controllers/userRoutes.js";
 
 dotenv.config();
 
 const app = express();
 
-app.use(cors({
-  origin: "https://lynktree.vercel.app",
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: "https://lynktree.vercel.app",
+  })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -30,7 +32,6 @@ app.get("/", (req, res) => {
 
 app.post("/api/user/signup", signup);
 app.post("/api/user/login", login);
-app.get("/api/user/logout", logout);
 app.delete("/api/user/delete", usrDelete);
 app.get("/api/user/get", usrGet);
 app.get("/api/user/profile/:username", usrProfile);

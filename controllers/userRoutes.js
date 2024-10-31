@@ -68,28 +68,15 @@ export const login = async (req, res) => {
       expiresIn: "24h",
     });
 
-    res.cookie("auth-token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: 24 * 60 * 60 * 1000,
-      partitioned: true,
-      path: "/",
-    });
-
-    res.status(200).json({ message: "User logged in successfully" });
+    res.status(200).json({ message: "User logged in successfully", token });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-export const logout = (req, res) => {
-  res.clearCookie("auth-token", { path: "/" });
-  res.status(200).json({ message: "User logged out successfully" });
-};
-
 export const usrDelete = async (req, res) => {
-  const token = req.cookies['auth-token'];
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -113,7 +100,8 @@ export const usrDelete = async (req, res) => {
 };
 
 export const usrGet = async (req, res) => {
-  const token = req.cookies['auth-token'];
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
